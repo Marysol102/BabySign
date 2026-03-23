@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Sign · Los 50 Signos Esenciales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#FFF8F0; --text-dark:#2D2016; --text-mid:#6B5344; --text-soft:#A08070;
+    --cat-food:#F5A623; --cat-food-bg:#FFF4E0;
+    --cat-fam:#E86F68;  --cat-fam-bg:#FFF0EF;
+    --cat-emo:#7EB8C9;  --cat-emo-bg:#EEF7FB;
+    --cat-ani:#7DC98A;  --cat-ani-bg:#EDF8EF;
+    --cat-act:#A67FD8;  --cat-act-bg:#F4EFFE;
+    --cat-obj:#E8A06F;  --cat-obj-bg:#FFF2E8;
+    --fav:#FFB800; --learned:#52C97A;
+    --shadow:0 4px 24px rgba(45,32,22,.07);
+    --shadow-h:0 14px 44px rgba(45,32,22,.16);
+    --r:20px; --rs:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text-dark);}
+
+  /* ── HEADER ─────────────────────────────────────── */
+  header{background:linear-gradient(135deg,#FDECD8 0%,#F5E6F5 50%,#E0EEF8 100%);padding:36px 24px 28px;text-align:center;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(248,200,150,.3) 0%,transparent 60%),radial-gradient(circle at 80% 30%,rgba(180,200,240,.3) 0%,transparent 60%);}
+  .h-emoji{font-size:48px;display:block;margin-bottom:8px;animation:float 3s ease-in-out infinite;position:relative;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;position:relative;}
+  h1 span{color:#E86F68;}
+  .subtitle{font-size:.92rem;color:var(--text-mid);margin-top:6px;max-width:480px;margin-inline:auto;font-weight:500;position:relative;}
+
+  /* Progress bar in header */
+  .progress-wrap{max-width:360px;margin:16px auto 0;position:relative;}
+  .progress-bar-bg{background:rgba(45,32,22,.1);border-radius:999px;height:10px;overflow:hidden;}
+  .progress-bar-fill{background:linear-gradient(90deg,var(--learned),#8BE8A2);height:100%;border-radius:999px;transition:width .5s cubic-bezier(.34,1.56,.64,1);}
+  .progress-label{font-size:.8rem;font-weight:800;color:var(--text-mid);margin-bottom:5px;display:flex;justify-content:space-between;}
+  .progress-label .pl-num{color:var(--learned);}
+
+  /* ── CONTROLS ────────────────────────────────────── */
+  .controls{max-width:1100px;margin:0 auto;padding:22px 20px 0;display:flex;flex-direction:column;gap:12px;}
+  .top-row{display:flex;gap:10px;align-items:center;}
+  .search-wrap{position:relative;flex:1;}
+  .search-wrap .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1.1rem;pointer-events:none;}
+  input[type=search]{width:100%;padding:13px 16px 13px 44px;border-radius:999px;border:2px solid rgba(45,32,22,.08);background:white;font-family:'Nunito',sans-serif;font-size:1rem;color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s;}
+  input[type=search]:focus{border-color:#E86F68;box-shadow:0 0 0 4px rgba(232,111,104,.12);}
+  .fc-btn{padding:12px 18px;border-radius:999px;border:none;background:var(--text-dark);color:white;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+  .fc-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-h);background:#1a0e06;}
+
+  .cats{display:flex;flex-wrap:wrap;gap:8px;}
+  .cat-btn{padding:7px 15px;border-radius:999px;border:2px solid transparent;background:white;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:700;color:var(--text-mid);transition:all .2s;white-space:nowrap;}
+  .cat-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow);}
+  .cat-btn[data-cat=all].active    {background:var(--text-dark);color:white;border-color:var(--text-dark);}
+  .cat-btn[data-cat=food].active   {background:var(--cat-food);color:white;border-color:var(--cat-food);}
+  .cat-btn[data-cat=family].active {background:var(--cat-fam); color:white;border-color:var(--cat-fam);}
+  .cat-btn[data-cat=emotions].active{background:var(--cat-emo);color:white;border-color:var(--cat-emo);}
+  .cat-btn[data-cat=animals].active {background:var(--cat-ani);color:white;border-color:var(--cat-ani);}
+  .cat-btn[data-cat=actions].active {background:var(--cat-act);color:white;border-color:var(--cat-act);}
+  .cat-btn[data-cat=objects].active {background:var(--cat-obj);color:white;border-color:var(--cat-obj);}
+  .cat-btn[data-cat=favs].active   {background:var(--fav);color:white;border-color:var(--fav);}
+  .cat-btn[data-cat=learned].active{background:var(--learned);color:white;border-color:var(--learned);}
+
+  /* ── TIP ─────────────────────────────────────────── */
+  .tip-bar{max-width:1100px;margin:18px auto 0;padding:0 20px;}
+  .tip-inner{background:linear-gradient(135deg,#FDECD8,#E8F4FB);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--text-mid);font-weight:500;}
+  .tip-inner .ti{font-size:1.6rem;flex-shrink:0;}
+
+  /* ── GRID ─────────────────────────────────────────── */
+  .grid{max-width:1100px;margin:0 auto;padding:20px 20px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:16px;}
+  .card{background:white;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;animation:cardIn .35s ease both;position:relative;}
+  @keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-h);}
+  .card.is-learned{outline:2.5px solid var(--learned);}
+
+  .card-img-wrap{position:relative;width:100%;aspect-ratio:4/3;background:#f5f5f5;overflow:hidden;}
+  .card-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+  .card:hover .card-img{transform:scale(1.04);}
+  .card-img-fb{width:100%;height:100%;display:none;align-items:center;justify-content:center;font-size:3.5rem;}
+  .card-play-badge{position:absolute;bottom:8px;right:8px;background:rgba(204,0,0,.92);color:white;border-radius:999px;padding:4px 11px;font-size:.72rem;font-weight:800;pointer-events:none;display:flex;align-items:center;gap:4px;}
+
+  /* Star & Check buttons on card */
+  .card-actions{position:absolute;top:8px;left:8px;display:flex;gap:6px;z-index:5;}
+  .card-action-btn{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:transform .2s,box-shadow .2s;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .card-action-btn:hover{transform:scale(1.15);}
+  .card-fav-btn.active{background:var(--fav);color:white;}
+  .card-fav-btn:not(.active){color:#ccc;}
+  .card-fav-btn:not(.active):hover{color:var(--fav);}
+  .card-learned-btn.active{background:var(--learned);color:white;}
+  .card-learned-btn:not(.active){color:#ccc;}
+  .card-learned-btn:not(.active):hover{color:var(--learned);}
+
+  /* Learned ribbon */
+  .learned-ribbon{display:none;position:absolute;top:0;right:0;background:var(--learned);color:white;font-size:.65rem;font-weight:800;padding:3px 10px 3px 8px;border-radius:0 var(--rs) 0 var(--rs);}
+  .card.is-learned .learned-ribbon{display:block;}
+
+  .card-body{padding:12px 16px 14px;}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;}
+  .cat-badge{border-radius:999px;padding:3px 10px;font-size:.70rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:var(--cbg);color:var(--c);}
+  .sign-name-es{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;color:var(--c);line-height:1.1;}
+  .sign-name-en{font-size:.76rem;color:var(--text-soft);font-weight:600;margin-top:1px;}
+  .level-dots{display:flex;gap:4px;align-items:center;margin-top:4px;}
+  .dot{width:7px;height:7px;border-radius:50%;}
+  .dot.f{background:var(--c);}
+  .dot.e{background:var(--text-soft);opacity:.2;}
+  .level-lbl{font-size:.67rem;color:var(--text-soft);font-weight:700;margin-left:4px;}
+  .how-to{margin-top:9px;font-size:.82rem;color:var(--text-mid);line-height:1.5;padding:8px 11px;border-radius:var(--rs);background:rgba(45,32,22,.03);}
+
+  .theme-food    {--c:var(--cat-food);--cbg:var(--cat-food-bg);}
+  .theme-family  {--c:var(--cat-fam); --cbg:var(--cat-fam-bg);}
+  .theme-emotions{--c:var(--cat-emo); --cbg:var(--cat-emo-bg);}
+  .theme-animals {--c:var(--cat-ani); --cbg:var(--cat-ani-bg);}
+  .theme-actions {--c:var(--cat-act); --cbg:var(--cat-act-bg);}
+  .theme-objects {--c:var(--cat-obj); --cbg:var(--cat-obj-bg);}
+
+  .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-soft);}
+  .empty .icon{font-size:3rem;display:block;margin-bottom:12px;}
+
+  /* ── MODAL ───────────────────────────────────────── */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(30,20,12,.6);backdrop-filter:blur(6px);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+  .modal-bg.open{display:flex;}
+  .modal{background:white;border-radius:28px;max-width:500px;width:100%;max-height:94vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3);animation:mIn .3s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes mIn{from{opacity:0;transform:scale(.88) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+  .modal-media{position:relative;border-radius:20px 20px 0 0;overflow:hidden;background:#111;}
+  .modal-close-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.92);border:none;cursor:pointer;border-radius:50%;width:36px;height:36px;font-size:1.1rem;color:var(--text-mid);box-shadow:var(--shadow);z-index:10;transition:background .2s;}
+  .modal-close-btn:hover{background:white;}
+  .media-tabs{display:flex;border-bottom:2px solid rgba(45,32,22,.07);background:white;}
+  .media-tab{flex:1;padding:11px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:800;color:var(--text-soft);background:transparent;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-2px;}
+  .media-tab.active{color:var(--c);border-bottom-color:var(--c);}
+  .panel-img{display:block;} .panel-vid{display:none;}
+  .modal-flash-img{width:100%;max-height:290px;object-fit:contain;display:block;background:#f8f8f8;}
+  .modal-img-fb{width:100%;height:220px;display:none;align-items:center;justify-content:center;font-size:5rem;background:#f8f8f8;}
+  .yt-thumb-wrap{position:relative;width:100%;aspect-ratio:16/9;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .yt-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+  .yt-thumb-wrap:hover .yt-thumb{transform:scale(1.04);}
+  .yt-play-btn{position:absolute;width:68px;height:48px;background:#CC0000;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+  .yt-thumb-wrap:hover .yt-play-btn{transform:scale(1.12);background:#ff0000;}
+  .yt-play-btn svg{width:26px;height:26px;fill:white;margin-left:3px;}
+  .yt-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));color:white;font-size:.8rem;font-weight:700;padding:20px 14px 10px;text-align:center;}
+
+  .modal-body{padding:16px 22px 24px;}
+  .modal-name-es{font-family:'Baloo 2',cursive;font-size:2rem;font-weight:800;color:var(--c);line-height:1;}
+  .modal-name-es a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;}
+  .modal-name-es a:hover{opacity:.75;}
+  .modal-name-en{font-size:.88rem;color:var(--text-soft);font-weight:600;margin-top:3px;}
+  .modal-meta{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
+  .modal-cat-badge{border-radius:999px;padding:4px 12px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:var(--cbg);color:var(--c);}
+  /* Modal action buttons */
+  .modal-actions{display:flex;gap:8px;margin-top:12px;}
+  .modal-act-btn{flex:1;padding:10px;border-radius:var(--rs);border:2px solid transparent;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:800;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .modal-fav-btn{background:rgba(255,184,0,.1);border-color:rgba(255,184,0,.3);color:#b07800;}
+  .modal-fav-btn.active{background:var(--fav);border-color:var(--fav);color:white;}
+  .modal-learned-btn{background:rgba(82,201,122,.1);border-color:rgba(82,201,122,.3);color:#2a8a4a;}
+  .modal-learned-btn.active{background:var(--learned);border-color:var(--learned);color:white;}
+  .modal-act-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow);}
+
+  .m-hands{font-size:2.2rem;text-align:center;letter-spacing:8px;padding:10px 0;}
+  .m-sec{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--text-soft);margin:14px 0 6px;}
+  .m-how{font-size:.92rem;color:var(--text-mid);line-height:1.65;background:rgba(45,32,22,.03);border-radius:10px;padding:12px 14px;}
+  .m-tip{background:linear-gradient(135deg,#FFF4E0,#FFF0EF);border-radius:10px;padding:11px 14px;font-size:.85rem;color:var(--text-mid);line-height:1.5;}
+
+  /* ── FLASHCARD MODE ──────────────────────────────── */
+  .fc-overlay{display:none;position:fixed;inset:0;z-index:2000;background:#1a0e06;flex-direction:column;}
+  .fc-overlay.open{display:flex;}
+
+  .fc-header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+  .fc-counter{font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;color:rgba(255,255,255,.6);}
+  .fc-counter strong{color:white;font-size:1.2rem;}
+  .fc-close{background:rgba(255,255,255,.1);border:none;cursor:pointer;border-radius:50%;width:40px;height:40px;font-size:1.2rem;color:white;transition:background .2s;}
+  .fc-close:hover{background:rgba(255,255,255,.2);}
+  .fc-progress{height:3px;background:rgba(255,255,255,.15);flex-shrink:0;}
+  .fc-progress-fill{height:100%;background:var(--fav);transition:width .3s ease;}
+
+  .fc-stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+
+  /* The card inside flashcard mode */
+  .fc-card{
+    background:white;border-radius:24px;width:min(420px, 90vw);
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+    overflow:hidden;
+    transition:transform .3s cubic-bezier(.34,1.2,.64,1), opacity .3s;
+    user-select:none;
+  }
+  .fc-card.slide-left  {transform:translateX(-120%) rotate(-6deg);opacity:0;}
+  .fc-card.slide-right {transform:translateX(120%) rotate(6deg);opacity:0;}
+
+  .fc-img-wrap{position:relative;width:100%;aspect-ratio:4/3;background:#f5f5f5;}
+  .fc-img{width:100%;height:100%;object-fit:cover;display:block;}
+  .fc-img-fb{width:100%;height:100%;position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:5rem;}
+  .fc-cat-pill{position:absolute;top:12px;left:12px;border-radius:999px;padding:4px 12px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
+
+  .fc-card-body{padding:18px 20px 20px;}
+  .fc-name{font-family:'Baloo 2',cursive;font-size:2rem;font-weight:800;line-height:1;}
+  .fc-name-en{font-size:.85rem;color:var(--text-soft);font-weight:600;margin-top:2px;}
+  .fc-hands{font-size:2rem;letter-spacing:6px;margin:10px 0;}
+  .fc-how{font-size:.88rem;color:var(--text-mid);line-height:1.6;background:rgba(45,32,22,.04);border-radius:10px;padding:10px 13px;}
+  .fc-card-actions{display:flex;gap:8px;margin-top:12px;}
+  .fc-act{flex:1;padding:9px;border-radius:10px;border:2px solid transparent;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;}
+  .fc-fav{background:rgba(255,184,0,.1);border-color:rgba(255,184,0,.3);color:#b07800;}
+  .fc-fav.active{background:var(--fav);border-color:var(--fav);color:white;}
+  .fc-lrn{background:rgba(82,201,122,.1);border-color:rgba(82,201,122,.3);color:#2a8a4a;}
+  .fc-lrn.active{background:var(--learned);border-color:var(--learned);color:white;}
+  .fc-yt{background:rgba(204,0,0,.08);border-color:rgba(204,0,0,.2);color:#CC0000;text-decoration:none;}
+  .fc-act:hover{transform:scale(1.03);}
+
+  /* Nav arrows */
+  .fc-nav{display:flex;align-items:center;justify-content:center;gap:16px;padding:16px 20px 24px;flex-shrink:0;}
+  .fc-nav-btn{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;font-size:1.4rem;background:rgba(255,255,255,.12);color:white;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+  .fc-nav-btn:hover{background:rgba(255,255,255,.22);transform:scale(1.08);}
+  .fc-nav-btn:disabled{opacity:.25;cursor:default;transform:none;}
+  .fc-swipe-hint{font-size:.75rem;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.04em;}
+
+  /* ── RESPONSIVE ──────────────────────────────────── */
+  @media(max-width:600px){
+    .grid{grid-template-columns:1fr 1fr;gap:10px;}
+    .how-to{display:none;}
+    .fc-btn span{display:none;}
+  }
+  @media(max-width:360px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="h-emoji">👶🤲</span>
+  <h1>Baby <span>Sign</span> Language</h1>
+  <p class="subtitle">Los 50 signos más esenciales con flash cards y vídeos</p>
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progreso aprendidos</span>
+      <span class="pl-num" id="progressNum">0 / 50</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</header>
+
+<div class="tip-bar">
+  <div class="tip-inner">
+    <span class="ti">💡</span>
+    <span>Haz clic en una tarjeta para ver la ficha completa. Usa ⭐ para favoritos y ✅ para marcar aprendidos. Pulsa <strong>Modo Flashcard</strong> para practicar.</span>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="top-row">
+    <div class="search-wrap">
+      <span class="icon">🔍</span>
+      <input type="search" id="search" placeholder="Buscar signo...">
+    </div>
+    <button class="fc-btn" id="fcBtn">🃏 <span>Modo Flashcard</span></button>
+  </div>
+  <div class="cats" id="cats">
+    <button class="cat-btn active" data-cat="all">🌟 Todos</button>
+    <button class="cat-btn" data-cat="food">🍼 Comida</button>
+    <button class="cat-btn" data-cat="family">👨‍👩‍👧 Familia</button>
+    <button class="cat-btn" data-cat="emotions">💛 Emociones</button>
+    <button class="cat-btn" data-cat="animals">🐾 Animales</button>
+    <button class="cat-btn" data-cat="actions">🙌 Acciones</button>
+    <button class="cat-btn" data-cat="objects">🏠 Objetos</button>
+    <button class="cat-btn" data-cat="favs">⭐ Favoritos</button>
+    <button class="cat-btn" data-cat="learned">✅ Aprendidos</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- ── MODAL ─────────────────────────────────────── -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal theme-food" id="modal">
+    <div class="modal-media">
+      <button class="modal-close-btn" id="modalClose">✕</button>
+      <div class="panel-img" id="panelImg">
+        <img class="modal-flash-img" id="mImg" src="" alt=""
+             onerror="this.style.display='none';document.getElementById('mImgFb').style.display='flex'">
+        <div class="modal-img-fb" id="mImgFb"></div>
+      </div>
+      <div class="panel-vid" id="panelVid">
+        <a class="yt-thumb-wrap" id="mYtLink" href="#" target="_blank" rel="noopener">
+          <img class="yt-thumb" id="mYtThumb" src="" alt="">
+          <div class="yt-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="yt-label">▶ Toca para ver en YouTube</div>
+        </a>
+      </div>
+    </div>
+    <div class="media-tabs">
+      <button class="media-tab active" id="tabImg">🃏 Flash card</button>
+      <button class="media-tab" id="tabVid">▶ Vídeo</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-name-es" id="mNameEs"></div>
+      <div class="modal-name-en" id="mNameEn"></div>
+      <div class="modal-meta">
+        <div class="modal-cat-badge" id="mCatBadge"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-act-btn modal-fav-btn" id="mFavBtn">⭐ Favorito</button>
+        <button class="modal-act-btn modal-learned-btn" id="mLearnedBtn">✅ Aprendido</button>
+      </div>
+      <div class="m-hands" id="mHands"></div>
+      <div class="m-sec">Cómo hacer el signo</div>
+      <div class="m-how" id="mHow"></div>
+      <div class="m-sec">Cuándo usarlo</div>
+      <div class="m-tip" id="mTip"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FLASHCARD OVERLAY ──────────────────────────── -->
+<div class="fc-overlay" id="fcOverlay">
+  <div class="fc-header">
+    <div class="fc-counter"><strong id="fcCurrent">1</strong> / <span id="fcTotal">50</span></div>
+    <button class="fc-close" id="fcClose">✕</button>
+  </div>
+  <div class="fc-progress"><div class="fc-progress-fill" id="fcProgressFill"></div></div>
+
+  <div class="fc-stage" id="fcStage">
+    <div class="fc-card" id="fcCard">
+      <div class="fc-img-wrap">
+        <img class="fc-img" id="fcImg" src="" alt=""
+             onerror="this.style.display='none';document.getElementById('fcImgFb').style.display='flex'">
+        <div class="fc-img-fb" id="fcImgFb"></div>
+        <div class="fc-cat-pill" id="fcCatPill"></div>
+      </div>
+      <div class="fc-card-body">
+        <div class="fc-name" id="fcName"></div>
+        <div class="fc-name-en" id="fcNameEn"></div>
+        <div class="fc-hands" id="fcHands"></div>
+        <div class="fc-how" id="fcHow"></div>
+        <div class="fc-card-actions">
+          <button class="fc-act fc-fav" id="fcFavBtn">⭐ Favorito</button>
+          <button class="fc-act fc-lrn" id="fcLrnBtn">✅ Aprendido</button>
+          <a class="fc-act fc-yt" id="fcYtLink" href="#" target="_blank" rel="noopener">▶ Vídeo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-nav">
+    <button class="fc-nav-btn" id="fcPrev">←</button>
+    <span class="fc-swipe-hint">desliza o usa las flechas</span>
+    <button class="fc-nav-btn" id="fcNext">→</button>
+  </div>
+</div>
+
+<script>
+const IMG  = 'https://res.cloudinary.com/spiralyze/image/upload/f_auto,w_auto/BabySignLanguage/DictionaryPages/';
+const SIGNS = [
+  {id:1, emoji:'🍼',nameEs:'Leche',    nameEn:'Milk',       cat:'food',    level:1,slug:'milk',        yt:'FrNOUcs_lTk',
+   hands:'✊✊',how:'<strong>Abre y cierra el puño</strong> repetidamente, como si ordeñaras una vaca.',tip:'Úsalo justo antes de dar el pecho o el biberón. Suele ser el primer signo que aprenden.'},
+  {id:2, emoji:'🍽️',nameEs:'Comer',    nameEn:'Eat',        cat:'food',    level:1,slug:'eat',         yt:'Z3rvyvZ1Dlk',
+   hands:'🤌',how:'<strong>Junta las yemas de todos los dedos</strong> y llévalas repetidamente a los labios.',tip:'Úsalo al sentarle en la trona o antes de cada comida.'},
+  {id:3, emoji:'➕',nameEs:'Más',       nameEn:'More',       cat:'food',    level:1,slug:'more',        yt:'EVaRNgCUpGE',
+   hands:'👌👌',how:'<strong>Junta las puntas de los dedos de ambas manos</strong> y tócalas entre sí varias veces.',tip:'El signo más versátil. Suele ser el primero que aprenden los bebés.'},
+  {id:4, emoji:'✅',nameEs:'Terminado', nameEn:'All Done',   cat:'food',    level:1,slug:'all-done',    imgSlug:'all_done',yt:'HJ030U8QfU4',
+   hands:'🤚🤚',how:'<strong>Levanta ambas manos</strong> con las palmas hacia ti y <strong>gíralas hacia afuera</strong>, como sacudiendo agua.',tip:'Evita que el bebé tire la comida al suelo para decirte que ya acabó.'},
+  {id:5, emoji:'💧',nameEs:'Agua',      nameEn:'Water',      cat:'food',    level:1,slug:'water',       yt:'aNz9H_rCdLw',
+   hands:'🤟',how:'Extiende los <strong>tres dedos del centro</strong> juntos y da golpecitos en la barbilla. Parece una "W".',tip:'Esencial una vez que el bebé toma agua.'},
+  {id:6, emoji:'🥤',nameEs:'Beber',     nameEn:'Drink',      cat:'food',    level:2,slug:'drink',       yt:'66Lu16dZ9zU',
+   hands:'🤜',how:'<strong>Curva la mano</strong> como si sujetaras un vaso y llévala hacia la boca.',tip:'Diferente de "agua" o "leche". Úsalo para zumos u otras bebidas.'},
+  {id:7, emoji:'😋',nameEs:'Hambre',    nameEn:'Hungry',     cat:'food',    level:2,slug:'hungry',      yt:'nzHSI34GIbQ',
+   hands:'🤲',how:'<strong>Coloca la mano en forma de C</strong> en la garganta y deslízala hacia abajo por el pecho.',tip:'Más específico que "comer". Ideal cuando el bebé ya distingue necesidades.'},
+  {id:8, emoji:'🙏',nameEs:'Lleno',     nameEn:'Full',       cat:'food',    level:2,slug:'full',        yt:'gouTAitICOw',
+   hands:'✋',how:'<strong>Coloca la mano plana debajo del mentón</strong> y empuja hacia arriba suavemente.',tip:'Fantástico para saber cuándo el bebé ya no quiere más comida.'},
+  {id:9, emoji:'🍎',nameEs:'Manzana',   nameEn:'Apple',      cat:'food',    level:3,slug:'apple',       yt:'Hup2DdvV2Bc',
+   hands:'🤜',how:'Haz un <strong>puño con el índice doblado en gancho</strong> y colócalo en la mejilla. Gira la muñeca.',tip:'Una fruta favorita de los bebés.'},
+  {id:10,emoji:'🍌',nameEs:'Plátano',   nameEn:'Banana',     cat:'food',    level:3,slug:'banana',      yt:'EVUezKawOqo',
+   hands:'☝️',how:'<strong>Levanta el índice</strong> (el "plátano") y con los dedos de la otra mano simula que lo <strong>pelas</strong>.',tip:'Primer alimento sólido muy común.'},
+  {id:11,emoji:'👩',nameEs:'Mamá',      nameEn:'Mom',        cat:'family',  level:1,slug:'mommy',       yt:'EVUezKawOqo',
+   hands:'🖐️',how:'<strong>Abre la mano con los dedos separados</strong> y da golpecitos con el <strong>pulgar en la barbilla</strong>.',tip:'Los signos femeninos están bajo la nariz en ASL.'},
+  {id:12,emoji:'👨',nameEs:'Papá',      nameEn:'Dad',        cat:'family',  level:1,slug:'daddy',       yt:'dv_OgknPDMY',
+   hands:'🖐️',how:'<strong>Igual que mamá</strong> pero el pulgar se toca en la <strong>frente</strong>.',tip:'Enseñar mamá y papá juntos ayuda al bebé a entender la diferencia.'},
+  {id:13,emoji:'👶',nameEs:'Bebé',      nameEn:'Baby',       cat:'family',  level:1,slug:'baby',        yt:'dJgTfkJq9Q8',
+   hands:'🤲',how:'<strong>Cruza los brazos</strong> con las palmas hacia arriba y <strong>mécelos</strong> de lado a lado.',tip:'Sirve para referirse a sí mismo o a otros bebés.'},
+  {id:14,emoji:'👵',nameEs:'Abuela',    nameEn:'Grandmother',cat:'family',  level:2,slug:'grandmother', yt:'LA-ddZWTVis',
+   hands:'🖐️',how:'Como "mamá": <strong>pulgar en la barbilla</strong> con <strong>movimiento doble hacia afuera</strong>.',tip:'Perfecta para que la abuela la enseñe ella misma.'},
+  {id:15,emoji:'👴',nameEs:'Abuelo',    nameEn:'Grandfather',cat:'family',  level:2,slug:'grandfather', yt:'SNqPWzUBSnw',
+   hands:'🖐️',how:'Como "papá": <strong>pulgar en la frente</strong> con <strong>movimiento doble hacia afuera</strong>.',tip:'Mismo patrón: masculino en frente, femenino en barbilla.'},
+  {id:16,emoji:'👦',nameEs:'Hermano',   nameEn:'Brother',    cat:'family',  level:3,slug:'brother',     yt:'VKDjD9Gq-hE',
+   hands:'🤙',how:'<strong>Toca la sien</strong> con el pulgar y luego <strong>baja las manos</strong> al frente al mismo nivel.',tip:'Ayuda al bebé a identificar a sus hermanos desde pronto.'},
+  {id:17,emoji:'👧',nameEs:'Hermana',   nameEn:'Sister',     cat:'family',  level:3,slug:'sister',      yt:'QktamJTzT1w',
+   hands:'🤙',how:'<strong>Toca la barbilla</strong> con el pulgar y luego <strong>baja las manos</strong> al frente.',tip:'Igual que hermano pero en la parte inferior de la cara.'},
+  {id:18,emoji:'😴',nameEs:'Dormir',    nameEn:'Sleep',      cat:'emotions',level:1,slug:'sleep',       yt:'51zIxIxSZrc',
+   hands:'🖐️',how:'<strong>Abre la mano</strong> sobre la frente y deslízala hacia abajo <strong>cerrando los dedos</strong>, como si bajaran los párpados.',tip:'Combínalo con un bostezo. Úsalo antes de la siesta.'},
+  {id:19,emoji:'😪',nameEs:'Cansado',   nameEn:'Tired',      cat:'emotions',level:2,slug:'tired',       yt:'jmcD_vGQ5c4',
+   hands:'🤲',how:'<strong>Coloca las yemas en el pecho</strong> con los codos levantados. Deja caer todo hacia abajo.',tip:'Útil cuando el bebé está irritable y no sabes por qué.'},
+  {id:20,emoji:'😊',nameEs:'Feliz',     nameEn:'Happy',      cat:'emotions',level:1,slug:'happy',       yt:'pYM3Dx0Hx2w',
+   hands:'✋',how:'<strong>Lleva la mano abierta al pecho</strong> y <strong>cepíllala hacia arriba</strong> varias veces.',tip:'Hazlo cuando el bebé esté sonriendo para reforzar la conexión.'},
+  {id:21,emoji:'😢',nameEs:'Triste',    nameEn:'Sad',        cat:'emotions',level:2,slug:'sad',         yt:'vxc_tWAWZJs',
+   hands:'🙌',how:'<strong>Lleva ambas manos abiertas a los lados de la cara</strong> y deslízalas <strong>hacia abajo</strong>.',tip:'Cuando el bebé llore, nombra la emoción mientras haces el signo.'},
+  {id:22,emoji:'❤️',nameEs:'Te quiero', nameEn:'I Love You', cat:'emotions',level:1,slug:'i-love-you',  imgSlug:'i_love_you',yt:'_6u-UjCC6EY',
+   hands:'🤟',how:'<strong>Extiende el pulgar, índice y meñique</strong> mientras doblas el corazón y el anular.',tip:'Uno de los más emotivos. Úsalo al despedirte, al acunarle, al dormir.'},
+  {id:23,emoji:'🤕',nameEs:'Dolor',     nameEn:'Hurt',       cat:'emotions',level:2,slug:'hurt',        yt:'uiRrN3j9WbI',
+   hands:'👆👆',how:'<strong>Apunta con ambos índices</strong> uno hacia el otro y <strong>gira las muñecas</strong>. Colócalos cerca de la zona que duele.',tip:'Fundamental cuando el bebé no puede decirte dónde le duele.'},
+  {id:24,emoji:'🥵',nameEs:'Calor',     nameEn:'Hot',        cat:'emotions',level:2,slug:'hot',         yt:'1WscDLitEwQ',
+   hands:'🤜',how:'<strong>Lleva la mano curvada cerca de la boca</strong> y <strong>gira la muñeca hacia afuera</strong>.',tip:'Muy útil con la comida caliente. Ayuda a prevenir quemaduras.'},
+  {id:25,emoji:'🥶',nameEs:'Frío',      nameEn:'Cold',       cat:'emotions',level:2,slug:'cold',        yt:'JwIyR8TEUUI',
+   hands:'✊✊',how:'<strong>Cierra ambos puños</strong> cerca del cuerpo y <strong>sacúdelos</strong> como si tiritiaras.',tip:'Combínalo con un temblor exagerado. Úsalo al salir en invierno.'},
+  {id:26,emoji:'🐱',nameEs:'Gato',      nameEn:'Cat',        cat:'animals', level:1,slug:'cat',         yt:'QVTPOg_o5ng',
+   hands:'🤌',how:'<strong>Pellizca el pulgar y el índice</strong> cerca de la mejilla y <strong>tira hacia afuera</strong>, como dibujando bigotes.',tip:'Si tenéis gato, aprenderá este signo en tiempo récord.'},
+  {id:27,emoji:'🐶',nameEs:'Perro',     nameEn:'Dog',        cat:'animals', level:1,slug:'dog',         yt:'0EKiH2dtKxg',
+   hands:'👋',how:'<strong>Da palmadas en el muslo</strong> y luego <strong>chasquea los dedos</strong>, como si llamaras a un perro.',tip:'Si visitáis perros frecuentemente, este signo se aprende muy rápido.'},
+  {id:28,emoji:'🐦',nameEs:'Pájaro',    nameEn:'Bird',       cat:'animals', level:2,slug:'bird',        yt:'CG4XHxIM6tw',
+   hands:'👌',how:'<strong>Pellizca el pulgar e índice</strong> cerca de la boca y <strong>ábrelos y ciérralos</strong>, imitando un pico.',tip:'Los bebés se fascinan con los pájaros al aire libre.'},
+  {id:29,emoji:'🐟',nameEs:'Pez',       nameEn:'Fish',       cat:'animals', level:2,slug:'fish',        yt:'ZwZe2JRqcRQ',
+   hands:'🖐️',how:'<strong>Extiende la mano plana</strong>, palma hacia abajo, y <strong>muévela ondulando</strong> de lado a lado.',tip:'Fácil de imitar. Si tenéis pecera, surgirá de forma natural.'},
+  {id:30,emoji:'🐘',nameEs:'Elefante',  nameEn:'Elephant',   cat:'animals', level:3,slug:'elephant',    yt:'laUp1EwI3DE',
+   hands:'✊',how:'<strong>Lleva el puño a la nariz</strong> y <strong>bájalo en una curva larga</strong>, dibujando la trompa.',tip:'A los bebés les encanta la trompa. Combínalo con el sonido del elefante.'},
+  {id:31,emoji:'🦆',nameEs:'Pato',      nameEn:'Duck',       cat:'animals', level:2,slug:'duck',        yt:'CosZoZX-VQA',
+   hands:'✌️',how:'<strong>Extiende índice, corazón y pulgar</strong> cerca de la boca y <strong>ábrelos y ciérralos</strong> como un pico.',tip:'Los patos del parque o del baño son el contexto perfecto.'},
+  {id:32,emoji:'🐻',nameEs:'Oso',       nameEn:'Bear',       cat:'animals', level:2,slug:'bear',        yt:'2WRtcIwnxyg',
+   hands:'🤗',how:'<strong>Cruza los brazos sobre el pecho</strong> y <strong>rásca los hombros</strong> repetidamente.',tip:'Los peluches de oso son un contexto perfecto para aprenderlo.'},
+  {id:33,emoji:'🙏',nameEs:'Por favor', nameEn:'Please',     cat:'actions', level:1,slug:'please',      yt:'VBr_hnELRqM',
+   hands:'✋',how:'<strong>Coloca la palma plana en el pecho</strong> y <strong>frótala en círculo</strong> varias veces.',tip:'Una vez que aprende "leche" y "comer", añade "por favor" antes de dárselos.'},
+  {id:34,emoji:'🤝',nameEs:'Gracias',   nameEn:'Thank You',  cat:'actions', level:1,slug:'thank-you',   imgSlug:'thank_you',yt:'O5Tv5KT1VLs',
+   hands:'🤚',how:'<strong>Toca las yemas en la barbilla</strong> y <strong>mueve la mano hacia afuera</strong>.',tip:'Junto con "por favor", forma la base de los buenos modales.'},
+  {id:35,emoji:'🆘',nameEs:'Ayuda',     nameEn:'Help',       cat:'actions', level:1,slug:'help',        yt:'HgRpq8gEnC8',
+   hands:'👍',how:'<strong>Coloca el puño con pulgar arriba sobre la palma</strong> de la otra mano y <strong>eleva ambas hacia arriba</strong>.',tip:'Evitador de rabietas n°1. Úsalo cuando el bebé esté frustrado.'},
+  {id:36,emoji:'✋',nameEs:'Para',      nameEn:'Stop',       cat:'actions', level:2,slug:'stop',        yt:'TMrbC2flEVE',
+   hands:'🖐️',how:'<strong>Golpea el canto de la mano dominante</strong> sobre la palma plana de la otra, como si cortaras algo.',tip:'Importante para situaciones de seguridad.'},
+  {id:37,emoji:'🚫',nameEs:'No',        nameEn:'No',         cat:'actions', level:1,slug:'no',          yt:'Li3gtgJyyII',
+   hands:'✌️',how:'<strong>Extiende el índice y el corazón</strong> y <strong>dóblalos rápidamente hacia el pulgar</strong>.',tip:'Enséñalo con calma y consistencia.'},
+  {id:38,emoji:'⬆️',nameEs:'Arriba',    nameEn:'Up',         cat:'actions', level:1,slug:'up',          yt:'fotnTKL9l7s',
+   hands:'☝️',how:'<strong>Señala hacia arriba con el índice</strong>. Simple, intuitivo y muy útil.',tip:'El bebé lo aprende rápido porque ya señala de forma natural.'},
+  {id:39,emoji:'🎮',nameEs:'Jugar',     nameEn:'Play',       cat:'actions', level:2,slug:'play',        yt:'uNfPr5Tlauo',
+   hands:'🤙🤙',how:'<strong>Extiende el pulgar y el meñique</strong> en ambas manos y <strong>sacúdelas</strong> un par de veces.',tip:'Cuando vean sus juguetes o el parque, harán este signo espontáneamente.'},
+  {id:40,emoji:'📚',nameEs:'Libro',     nameEn:'Book',       cat:'actions', level:2,slug:'book',        yt:'GhmFpeEFMlg',
+   hands:'🙏',how:'<strong>Junta las palmas</strong> y <strong>ábrelas hacia afuera</strong> como si abrieras un libro.',tip:'Fomenta el amor por la lectura. Úsalo cada vez que saques un cuento.'},
+  {id:41,emoji:'🛁',nameEs:'Baño',      nameEn:'Bath',       cat:'actions', level:1,slug:'bath',        yt:'Iced6kuPOJA',
+   hands:'✊✊',how:'<strong>Cierra ambos puños</strong> y <strong>frótalos arriba y abajo</strong> en el pecho, como si te jabonases.',tip:'Los bebés suelen esperar con ilusión el baño.'},
+  {id:42,emoji:'🩲',nameEs:'Pañal',     nameEn:'Diaper',     cat:'actions', level:2,slug:'diaper',      yt:'9H9v3DnuswE',
+   hands:'✌️✌️',how:'<strong>Coloca ambos índices y corazones</strong> a la altura de las caderas y <strong>abre y cierra los dedos</strong>.',tip:'Con el tiempo, el bebé te avisará cuando esté mojado.'},
+  {id:43,emoji:'⚽',nameEs:'Pelota',    nameEn:'Ball',       cat:'objects', level:1,slug:'ball',        yt:'M0afJ7r-Pow',
+   hands:'🤲',how:'<strong>Curva ambas manos</strong> con los dedos separados enfrentándose, como si sostuvieras una pelota.',tip:'Haz el signo cada vez que la tires o la cojas.'},
+  {id:44,emoji:'🚗',nameEs:'Coche',     nameEn:'Car',        cat:'objects', level:2,slug:'car',         yt:'o_cyPAt_kV8',
+   hands:'🤜🤜',how:'<strong>Sujeta ambos puños</strong> y <strong>gíralos alternadamente</strong> arriba y abajo, como un volante.',tip:'Ideal para los paseos en coche. Úsalo al acercarte al vehículo.'},
+  {id:45,emoji:'🛏️',nameEs:'Cama',      nameEn:'Bed',        cat:'objects', level:1,slug:'bed',         yt:'VRKt0lhQ-vU',
+   hands:'🙏',how:'<strong>Junta las manos</strong> e <strong>inclina la cabeza sobre ellas</strong>, como si usaras las manos de almohada.',tip:'Diferente de "dormir". Úsalo para señalar la cuna.'},
+  {id:46,emoji:'🌳',nameEs:'Fuera',     nameEn:'Outside',    cat:'objects', level:2,slug:'outside',     yt:'DrVMtk1NmXU',
+   hands:'👌',how:'<strong>Haz una "O"</strong> con una mano, pasa los dedos de la otra hacia afuera y cierra el puño.',tip:'¡Muchos bebés lo usan sin parar para salir al parque!'},
+  {id:47,emoji:'👟',nameEs:'Zapatos',   nameEn:'Shoes',      cat:'objects', level:2,slug:'shoes',       yt:'h2Dr9DQOlLg',
+   hands:'✊✊',how:'<strong>Cierra ambos puños</strong> y <strong>golpéalos entre sí</strong> varias veces. Como dos zapatos chocando.',tip:'Útil para indicar que es hora de salir.'},
+  {id:48,emoji:'🧸',nameEs:'Manta',     nameEn:'Blanket',    cat:'objects', level:2,slug:'blanket',     yt:'cw3gBk3P5MU',
+   hands:'🤲',how:'<strong>Sujeta ambas manos</strong> como si sostuvieras el borde de una manta y <strong>súbelas hacia la barbilla</strong>.',tip:'Si el bebé tiene una manta favorita, aprenderá este signo muy rápido.'},
+  {id:49,emoji:'🚶',nameEs:'Vamos',     nameEn:'Go',         cat:'objects', level:1,slug:'go',          yt:'fo86VzT9soc',
+   hands:'👆👆',how:'<strong>Extiende ambos índices</strong> apuntando hacia afuera y <strong>muévelos hacia adelante</strong>.',tip:'Combinado con "fuera" o "coche" forma las primeras frases de dos signos.'},
+  {id:50,emoji:'🔄',nameEs:'Cambiar',   nameEn:'Change',     cat:'objects', level:2,slug:'change',      yt:'J48lkBxOZDM',
+   hands:'✊✊',how:'<strong>Cierra ambos puños</strong> enfrentándose y <strong>gíralos arriba y abajo</strong> alternadamente.',tip:'Avisa al bebé del cambio de actividad. Reduce las protestas.'}
+];
+
+const THEMES={food:'theme-food',family:'theme-family',emotions:'theme-emotions',animals:'theme-animals',actions:'theme-actions',objects:'theme-objects'};
+const CAT_L={food:'Comida',family:'Familia',emotions:'Emociones',animals:'Animales',actions:'Acciones',objects:'Objetos'};
+const LVL_L={1:'Prioritario',2:'Básico',3:'Avanzado'};
+
+/* ── STATE (persisted in localStorage) ─────────── */
+const load = k => new Set(JSON.parse(localStorage.getItem(k)||'[]'));
+const save = (k,s) => localStorage.setItem(k, JSON.stringify([...s]));
+
+let favs    = load('bsl_favs');
+let learned = load('bsl_learned');
+let curCat  = 'all', curQ = '';
+
+const imgUrl  = s   => `${IMG}${s.imgSlug||s.slug}-flash-card-jpg.jpeg`;
+const ytThumb = id  => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+const ytLink  = id  => `https://youtu.be/${id}`;
+
+/* ── PROGRESS BAR ───────────────────────────────── */
+function updateProgress(){
+  const n = learned.size;
+  document.getElementById('progressNum').textContent  = `${n} / 50`;
+  document.getElementById('progressFill').style.width = `${(n/50)*100}%`;
+}
+
+/* ── FILTERED LIST ──────────────────────────────── */
+function filteredList(){
+  return SIGNS.filter(s => {
+    if(curCat==='favs')    return favs.has(s.id);
+    if(curCat==='learned') return learned.has(s.id);
+    const mc = curCat==='all' || s.cat===curCat;
+    const q  = curQ.toLowerCase();
+    return mc && (!q || s.nameEs.toLowerCase().includes(q) || s.nameEn.toLowerCase().includes(q));
+  });
+}
+
+/* ── RENDER GRID ────────────────────────────────── */
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  const list = filteredList();
+  if(!list.length){
+    let msg = curCat==='favs' ? '⭐ Aún no tienes favoritos.<br>Dale a la estrella en cualquier signo.' :
+              curCat==='learned' ? '✅ Aún no has marcado ningún signo como aprendido.' :
+              '🔍 No se encontraron signos.';
+    grid.innerHTML=`<div class="empty"><span class="icon">${curCat==='favs'?'⭐':curCat==='learned'?'✅':'🔍'}</span>${msg}</div>`;
+    return;
+  }
+  grid.innerHTML = list.map((s,i) => `
+    <div class="card ${THEMES[s.cat]}${learned.has(s.id)?' is-learned':''}" data-id="${s.id}" style="animation-delay:${i*.04}s">
+      <div class="learned-ribbon">✅ Aprendido</div>
+      <div class="card-img-wrap">
+        <img class="card-img" src="${imgUrl(s)}" alt="${s.nameEs}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="card-img-fb">${s.emoji}</div>
+        <div class="card-play-badge">▶ vídeo</div>
+      </div>
+      <div class="card-actions">
+        <button class="card-action-btn card-fav-btn${favs.has(s.id)?' active':''}" data-id="${s.id}" title="Favorito">⭐</button>
+        <button class="card-action-btn card-learned-btn${learned.has(s.id)?' active':''}" data-id="${s.id}" title="Aprendido">✅</button>
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <div><div class="sign-name-es">${s.nameEs}</div><div class="sign-name-en">${s.nameEn}</div></div>
+          <div class="cat-badge">${CAT_L[s.cat]}</div>
+        </div>
+        <div class="level-dots">
+          ${[1,2,3].map(l=>`<div class="dot ${l<=s.level?'f':'e'}"></div>`).join('')}
+          <span class="level-lbl">${LVL_L[s.level]}</span>
+        </div>
+        <div class="how-to">${s.how}</div>
+      </div>
+    </div>`).join('');
+
+  grid.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', e => {
+      if(e.target.closest('.card-action-btn')) return;
+      openModal(+c.dataset.id);
+    });
+  });
+  grid.querySelectorAll('.card-fav-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); toggleFav(+btn.dataset.id); });
+  });
+  grid.querySelectorAll('.card-learned-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); toggleLearned(+btn.dataset.id); });
+  });
+}
+
+/* ── TOGGLE HELPERS ─────────────────────────────── */
+function toggleFav(id){
+  favs.has(id) ? favs.delete(id) : favs.add(id);
+  save('bsl_favs', favs);
+  renderGrid();
+  if(curModalId===id) syncModalButtons(id);
+  if(fcList && fcList[fcIdx]?.id===id) syncFcButtons();
+}
+function toggleLearned(id){
+  learned.has(id) ? learned.delete(id) : learned.add(id);
+  save('bsl_learned', learned);
+  updateProgress();
+  renderGrid();
+  if(curModalId===id) syncModalButtons(id);
+  if(fcList && fcList[fcIdx]?.id===id) syncFcButtons();
+}
+
+/* ── MODAL ──────────────────────────────────────── */
+let curModalId = null;
+
+function showTab(tab){
+  const isImg=tab==='img';
+  document.getElementById('panelImg').style.display=isImg?'block':'none';
+  document.getElementById('panelVid').style.display=isImg?'none':'block';
+  document.getElementById('tabImg').classList.toggle('active',isImg);
+  document.getElementById('tabVid').classList.toggle('active',!isImg);
+}
+
+function syncModalButtons(id){
+  document.getElementById('mFavBtn').classList.toggle('active', favs.has(id));
+  document.getElementById('mLearnedBtn').classList.toggle('active', learned.has(id));
+}
+
+function openModal(id){
+  const s=SIGNS.find(x=>x.id===id); if(!s) return;
+  curModalId=id;
+  document.getElementById('modal').className=`modal ${THEMES[s.cat]}`;
+  const img=document.getElementById('mImg'),fb=document.getElementById('mImgFb');
+  img.style.display='block'; fb.style.display='none';
+  fb.textContent=s.emoji; img.src=imgUrl(s);
+  img.onerror=()=>{ img.style.display='none'; fb.style.display='flex'; };
+  document.getElementById('mYtThumb').src=ytThumb(s.yt);
+  document.getElementById('mYtLink').href=ytLink(s.yt);
+  document.getElementById('mNameEs').innerHTML=`<a href="https://babysignlanguage.com/dictionary/${s.slug}/" target="_blank" rel="noopener">${s.nameEs}</a>`;
+  document.getElementById('mNameEn').textContent=s.nameEn+' (en inglés)';
+  document.getElementById('mCatBadge').textContent=CAT_L[s.cat];
+  document.getElementById('mHands').textContent=s.hands;
+  document.getElementById('mHow').innerHTML=s.how;
+  document.getElementById('mTip').textContent=s.tip;
+  syncModalButtons(id);
+  showTab('img');
+  document.getElementById('modalBg').classList.add('open');
+  document.getElementById('modal').scrollTop=0;
+}
+
+function closeModal(){ document.getElementById('modalBg').classList.remove('open'); curModalId=null; }
+
+document.getElementById('mFavBtn').onclick    = () => { if(curModalId) toggleFav(curModalId); };
+document.getElementById('mLearnedBtn').onclick = () => { if(curModalId) toggleLearned(curModalId); };
+document.getElementById('tabImg').onclick  = ()=>showTab('img');
+document.getElementById('tabVid').onclick  = ()=>showTab('vid');
+document.getElementById('modalClose').onclick = closeModal;
+document.getElementById('modalBg').addEventListener('click', e=>{ if(e.target.id==='modalBg') closeModal(); });
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeModal(); closeFc(); }
+  if(document.getElementById('fcOverlay').classList.contains('open')){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') fcGo(1);
+    if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   fcGo(-1);
+  }
+});
+
+/* ── CATEGORY BUTTONS ───────────────────────────── */
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); curCat=btn.dataset.cat; renderGrid();
+  });
+});
+document.getElementById('search').addEventListener('input',e=>{ curQ=e.target.value; renderGrid(); });
+
+/* ── FLASHCARD MODE ──────────────────────────────── */
+let fcList=[], fcIdx=0;
+
+function openFc(){
+  fcList = filteredList();
+  if(!fcList.length){ alert('No hay signos que mostrar con el filtro actual.'); return; }
+  fcIdx=0;
+  document.getElementById('fcTotal').textContent=fcList.length;
+  document.getElementById('fcOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  renderFcCard(false);
+}
+function closeFc(){
+  document.getElementById('fcOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderFcCard(animate, dir){
+  const s=fcList[fcIdx];
+  const card=document.getElementById('fcCard');
+
+  if(animate){
+    card.classList.add(dir>0?'slide-left':'slide-right');
+    setTimeout(()=>{
+      card.classList.remove('slide-left','slide-right');
+      fillFcCard(s);
+    },250);
+  } else {
+    fillFcCard(s);
+  }
+  document.getElementById('fcCurrent').textContent=fcIdx+1;
+  document.getElementById('fcProgressFill').style.width=`${((fcIdx+1)/fcList.length)*100}%`;
+  document.getElementById('fcPrev').disabled=fcIdx===0;
+  document.getElementById('fcNext').disabled=fcIdx===fcList.length-1;
+}
+
+function fillFcCard(s){
+  document.getElementById('fcCard').className=`fc-card ${THEMES[s.cat]}`;
+  const img=document.getElementById('fcImg'),fb=document.getElementById('fcImgFb');
+  img.style.display='block'; fb.style.display='none';
+  fb.textContent=s.emoji; img.src=imgUrl(s);
+  img.onerror=()=>{ img.style.display='none'; fb.style.display='flex'; };
+  const pill=document.getElementById('fcCatPill');
+  pill.textContent=CAT_L[s.cat];
+  pill.style.background='var(--cbg)'; pill.style.color='var(--c)';
+  document.getElementById('fcName').textContent=s.nameEs;
+  document.getElementById('fcNameEn').textContent=s.nameEn;
+  document.getElementById('fcHands').textContent=s.hands;
+  document.getElementById('fcHow').innerHTML=s.how;
+  document.getElementById('fcYtLink').href=ytLink(s.yt);
+  syncFcButtons();
+}
+
+function syncFcButtons(){
+  const s=fcList[fcIdx];
+  document.getElementById('fcFavBtn').classList.toggle('active',favs.has(s.id));
+  document.getElementById('fcLrnBtn').classList.toggle('active',learned.has(s.id));
+}
+
+function fcGo(dir){
+  const next=fcIdx+dir;
+  if(next<0||next>=fcList.length) return;
+  fcIdx=next;
+  renderFcCard(true,dir);
+}
+
+document.getElementById('fcBtn').onclick   = openFc;
+document.getElementById('fcClose').onclick = closeFc;
+document.getElementById('fcNext').onclick  = ()=>fcGo(1);
+document.getElementById('fcPrev').onclick  = ()=>fcGo(-1);
+document.getElementById('fcFavBtn').onclick = ()=>{ toggleFav(fcList[fcIdx].id); };
+document.getElementById('fcLrnBtn').onclick = ()=>{ toggleLearned(fcList[fcIdx].id); };
+
+/* Touch swipe for flashcard */
+let touchStartX=0;
+document.getElementById('fcStage').addEventListener('touchstart', e=>{ touchStartX=e.touches[0].clientX; },{passive:true});
+document.getElementById('fcStage').addEventListener('touchend',   e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(Math.abs(dx)>50) fcGo(dx<0?1:-1);
+},{passive:true});
+
+/* ── INIT ───────────────────────────────────────── */
+updateProgress();
+renderGrid();
+</script>
+</body>
+</html>
